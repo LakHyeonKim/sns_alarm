@@ -1,44 +1,87 @@
 package client;
 
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
  
 public class Client {
- 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("client 2");
- 
-        Socket CS = null;
+        if(args.length != 2) {
+            System.out.println("사용법 : java ChatClient id 접속할 서버 ip");
+            System.exit(1);
+        }
+        Socket sock = null;
+        BufferedReader br = null;
+        PrintWriter pw = null;
+        boolean endflag = false;
         try {
-            CS = new Socket();
- 
-            System.out.print("Login? (enter num): ");
-            int temp = input.nextInt();
- 
-            CS.connect(new InetSocketAddress(InetAddress.getLocalHost(), 4040));
-            System.out.println("SUCCESS");
- 
-            while (true) {
-                System.out.print("> ");
-                String message = input.nextLine();
-                byte[] as = message.getBytes("UTF-8");
-                OutputStream OS = CS.getOutputStream();
-                OS.write(as);
+            sock = new Socket(args[1], 4040);//아아디,포트
+            pw = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
+            br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+            
+            pw.println(args[0]);
+            pw.flush();
+            InputThread it = new InputThread(sock,br);
+            it.start();
+            String line = null;
+            while((line = keyboard.readLine()) != null) {
+                pw.println(line);
+                pw.flush();
+                if(line.equals("/quit")) {
+                    endflag = true;
+                    break;
+                }
             }
- 
-        } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("클라이언트 접속 종료");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(pw != null) {
+                    pw.close();
+                }
+                if(br != null) {
+                    br.close();
+                }
+                if(sock != null) {
+                    sock.close();
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+}
  
+class InputThread extends Thread{
+    private Socket sock = null;
+    private BufferedReader br = null;
+    public InputThread(Socket sock,BufferedReader br) {
+        this.sock = sock;
+        this.br = br;
+    }
+    public void run() {
         try {
-            CS.close();
+            String line = null;
+            while((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+        }finally {
+            try {
+                if(br != null) {
+                    br.close();
+                }
+                if(sock != null) {
+                    sock.close();
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
- 
     }
 }
