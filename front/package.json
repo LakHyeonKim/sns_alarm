@@ -9,9 +9,13 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "bootstrap": "^3.4.1",
     "core-js": "^3.6.4",
+    "jquery": "^3.4.1",
     "socket.io-client": "^2.3.0",
-    "vue": "^2.6.11"
+    "sockjs-client": "^1.4.0",
+    "vue": "^2.6.11",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.2.0",
