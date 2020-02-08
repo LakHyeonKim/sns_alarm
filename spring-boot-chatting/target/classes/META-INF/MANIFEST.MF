@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: spring-boot-chatting
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: 20120
+Implementation-Vendor-Id: com.ssafy
+Build-Jdk: 1.8.0_202
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/spring-boot-chatting
+Created-By: Maven Integration for Eclipse
+
