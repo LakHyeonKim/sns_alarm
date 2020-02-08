@@ -1,6 +1,5 @@
-/config/
-/jdbc_test/
-/jdbc/
-/vo/
-/server/
 /client/
+/config/
+/jdbc/
+/server/
+/vo/
