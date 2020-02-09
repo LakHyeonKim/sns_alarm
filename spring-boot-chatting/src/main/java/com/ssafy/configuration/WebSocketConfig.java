@@ -11,14 +11,17 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/topic", "/queue");
+		config.enableSimpleBroker("/topic", "/queue", "/subscribe");
 		config.setApplicationDestinationPrefixes("/app");
 	}
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/gs-guide-websocket")
-				.setAllowedOrigins("http://localhost:8081",
+				.setAllowedOrigins("http://localhost:8080",
                 "chrome-extension://ggnhohnkfcpcanfekomdkjffnfcjnjam")
-				.withSockJS();
+				.withSockJS()
+				.setStreamBytesLimit(512 * 1024)
+				.setHttpMessageCacheSize(1000)
+				.setDisconnectDelay(30 * 1000);
 	}
 }

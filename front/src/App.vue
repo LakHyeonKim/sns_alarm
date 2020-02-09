@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <websocket-greetings></websocket-greetings>
+    <alarm></alarm>
   </div>
 </template>
 
 <script>
-import WebsocketGreetings from "@/components/WebsocketGreetings.vue"
+import Alarm from "@/components/Alarm.vue"
 
 
 export default {
   name: 'App',
   components:{
-    WebsocketGreetings
+    Alarm
   }
 }
 </script>

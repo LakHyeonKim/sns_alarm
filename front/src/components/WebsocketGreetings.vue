@@ -28,7 +28,7 @@
           <form class="form-inline">
             <div class="form-group">
               <label for="connect">WebSocket connection: solo cast</label>
-              <button id="connect" class="btn btn-default" type="submit" :disabled="soloconnected == true" @click.prevent="soloconnect">Connect</button>
+              <button id="connect" class="btn btn-default" type="submit" :disabled="soloconnected == true" @click.prevent="soloconnect">solo_Connect</button>
               <button id="disconnect" class="btn btn-default" type="submit" :disabled="soloconnected == false" @click.prevent="disconnect">Disconnect
               </button>
             </div>
@@ -40,7 +40,7 @@
               <label for="name">solo cast</label>
               <input type="text" id="name" class="form-control" v-model="solo_send_message" placeholder="Your name here...">
             </div>
-            <button id="send" class="btn btn-default" type="submit" @click.prevent="solosend">Send</button>
+            <button id="send" class="btn btn-default" type="submit" @click.prevent="alarm">solo_Send</button>
           </form>
         </div>
       </div>
@@ -97,6 +97,9 @@ export default {
     };
   },
   methods: {
+    alarm(){
+      setInterval(this.solosend,2000);
+    },
     send() {
       console.log("Send message:" + this.send_message);
       if (this.stompClient && this.stompClient.connected) {
@@ -106,10 +109,10 @@ export default {
       }
     },
     solosend() {
-      console.log("Send message:" + this.solo_send_message);
+      //console.log("Send message:" + this.solo_send_message);
       if (this.stompClient && this.stompClient.connected) {
         const msg = { name: this.solo_send_message };
-        console.log(JSON.stringify(msg));
+        //console.log(JSON.stringify(msg));
         this.stompClient.send("/app/info", JSON.stringify(msg), {});
       }
     },
@@ -140,7 +143,7 @@ export default {
         frame => {
           this.soloconnected = true;
           console.log(frame);
-          this.stompClient.subscribe("/queue/info", tick => {
+          this.stompClient.subscribe("/user/queue/info", tick => {
             console.log(tick);
             this.solo_received_messages.push(JSON.parse(tick.body).content);
           });

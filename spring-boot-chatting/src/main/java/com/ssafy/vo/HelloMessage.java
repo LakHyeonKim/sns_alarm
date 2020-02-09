@@ -1,27 +1,27 @@
 package com.ssafy.vo;
 
 public class HelloMessage {
-	private String name;
-
+	private String memberId;
+	
 	public HelloMessage() {
 		super();
 	}
 
-	public HelloMessage(String name) {
+	public HelloMessage(String memberId) {
 		super();
-		this.name = name;
+		this.memberId = memberId;
 	}
 
-	public String getName() {
-		return name;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	@Override
 	public String toString() {
-		return "HelloMessage [name=" + name + "]";
+		return "HelloMessage [memberId=" + memberId + "]";
 	}
 }
